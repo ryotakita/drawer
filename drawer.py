@@ -1,7 +1,5 @@
-import cv2
 import numpy as np
 import csv
-import math
 import svgwrite
 import random
 # -*- coding: utf8 -*-
@@ -11,7 +9,7 @@ import os, tkinter, tkinter.filedialog, tkinter.messagebox
 root = tkinter.Tk()
 root.attributes("-topmost", True)
 root.title("SvgViewer")
-iconfile = "favicon.ico"
+iconfile = "C:/Users/ryota-kita/Documents/SourceCode/drawer/favicon.ico"
 root.iconbitmap(default=iconfile)
 root.geometry("300x100")
 
