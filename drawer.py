@@ -11,7 +11,9 @@ import os, tkinter, tkinter.filedialog, tkinter.messagebox
 root = tkinter.Tk()
 root.attributes("-topmost", True)
 root.title("SvgViewer")
-root.geometry("300x80")
+iconfile = "favicon.ico"
+root.iconbitmap(default=iconfile)
+root.geometry("300x100")
 
 
 file = tkinter.StringVar()
@@ -25,7 +27,13 @@ def enterFile():
 button = tkinter.Button(root, text='パス指定',command = enterFile)
 button.pack()
 
+status = tkinter.StringVar()
+status.set("待機中")
+Static2 = tkinter.Label(textvariable=status)
+Static2.pack()
+
 def createSVG():
+    status.set("異常終了")
     img = np.full((3000, 3000, 3), 128, dtype=np.uint8)
 
     path_csv = file.get()
@@ -35,6 +43,7 @@ def createSVG():
     path_svg = path_csv.strip("csv") + "svg"
     path_png = path_csv.strip("csv") + "png"
     dwg = svgwrite.Drawing( path_svg,(3000,3000))
+    
 
     for row in datareader:
         if(len(row) == 4):
@@ -60,7 +69,8 @@ def createSVG():
     #dwg.add( dwg.polygon( points = points))
     dwg.save()
 
-    tkinter.messagebox.showinfo("処理結果","処理が終了しました。")
+    status.set("正常終了")
+
 
 button2 = tkinter.Button(root, text='実行',command = createSVG)
 button2.pack()
