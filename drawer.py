@@ -5,14 +5,12 @@ import random
 # -*- coding: utf8 -*-
 import os, tkinter, tkinter.filedialog, tkinter.messagebox
 
-# ファイル選択ダイアログの表示
 root = tkinter.Tk()
 root.attributes("-topmost", True)
 root.title("SvgViewer")
 iconfile = "C:/Users/ryota-kita/Documents/SourceCode/drawer/favicon.ico"
 root.iconbitmap(default=iconfile)
 root.geometry("300x100")
-
 
 file = tkinter.StringVar()
 file.set("test.csv")
@@ -22,16 +20,16 @@ def enterFile():
     fileName = tkinter.filedialog.askopenfilename(filetypes = fTyp,initialdir = iDir)
     file.set(fileName)
 
-button = tkinter.Button(root, text='パス指定',command = enterFile)
-button.pack()
+button = tkinter.Button(root, text='path',command = enterFile)
+button.grid()
 
 status = tkinter.StringVar()
-status.set("待機中")
+status.set("waiting")
 Static2 = tkinter.Label(textvariable=status)
-Static2.pack()
+Static2.grid()
 
 def createSVG():
-    status.set("異常終了")
+    status.set("Error Ocurred")
     img = np.full((3000, 3000, 3), 128, dtype=np.uint8)
 
     path_csv = file.get()
@@ -67,17 +65,35 @@ def createSVG():
     #dwg.add( dwg.polygon( points = points))
     dwg.save()
 
-    status.set("正常終了")
+    status.set("Completed")
+    os.system(path_svg)
 
 
-button2 = tkinter.Button(root, text='実行',command = createSVG)
-button2.pack()
+button2 = tkinter.Button(root, text='Do',command = createSVG)
+button2.grid()
 
-Static1 = tkinter.Label(textvariable=file)
-Static1.pack()
-# 処理ファイル名の出力
+def FixWindow():
+        root.overrideredirect(1)
+        root.geometry("1000x25")
+        Static2.grid(column=0,row=0)
+        button.grid(column=1,row=0)
+        buttonFix.grid(column=2,row=1)
+        buttonDeFix.grid(column=2,row=0)
+        button2.grid(column=3,row=0)
+        Static1.grid(column=4,row=0)
+        root.configure(bg="white")
+        root.wm_attributes("-transparentcolor","white")
+def DeFixWindow():
+        root.overrideredirect(0)
 
-#tkinter.messagebox.showinfo('○×プログラム',file)
+
+buttonFix = tkinter.Button(root, text='fixWindow',command = FixWindow)
+buttonFix.grid()
+buttonDeFix = tkinter.Button(root, text='UndofixWindow',command = DeFixWindow)
+buttonDeFix.grid()
+
+Static1 = tkinter.Label(textvariable=file,fg="red")
+Static1.grid()
 
 root.mainloop()
 
